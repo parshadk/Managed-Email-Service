@@ -9,6 +9,10 @@
     body{
         background-color: #1182EB;
     }
+    .display {
+      display: none !important ;
+    }
+ 
 </style>
 
   </head>
@@ -16,21 +20,27 @@
     <div class="rounded p-3 mb-2 bg- text-white ">
    <form id="emailForm">
     <div class="form-group">
-      <input type="checkbox" id="ReplyTo">  
+      <input type="checkbox" id="ReplyTo" onclick="onClickReply()">  
       <label for="to">Add Reply To:</label><br>
-      <label for="to" >Reply To:</label>
+      
+      <div id="reply" class="display">
+        <label for="Replyto" >Reply To:</label>
       <input type="email" class="form-control" id="ReplyTo-input" placeholder="Use Commas to separate multiple emails">
-      <label for="Replyto">To:</label>
+      
+      </div>
+      <label for="to">To:</label>
       <input type="email" class="form-control" id="to" name="to" placeholder="Use Commas to separate multiple emails" req>
     </div>
 
     <div class="form-group">
-      <input type="checkbox" id="CC/Bcc">
-      <label for="to">Add Cc/Bcc:</label><br>
-      <label for="cc">CC:</label>
-      <input type="text" class="form-control" id="cc" name="cc" placeholder="Use Commas to separate multiple emails">
-      <label for="bcc">BCC:</label>
+      <input type="checkbox" id="CC/Bcc" onclick="onClickHandler()">
+        <label for="to">Add Cc/Bcc:</label><br>
+      <div id="CCInputContainer" class="display"><label for="cc">CC:</label>
+        <input type="text" class="form-control" id="cc" name="cc" placeholder="Use Commas to separate multiple emails"></div>
+      <div id="BCCInputContainer" class="display">
+        <label for="bcc">BCC:</label>
       <input type="text" class="form-control" id="bcc" name="bcc" placeholder="Use Commas to separate multiple emails">
+      </div>
     </div>
 
     <div class="form-group">
@@ -57,40 +67,40 @@
             </li>
         </ul>
         <div class="tab-content" id="TabContents">
-            <div class="tab-pane fade show active" id="text" role="tabpanel" aria-labelledby="text-tab">
+            <div class="tab-pane fade show active "  id="text" role="tabpanel" aria-labelledby="text-tab">
                 <h3>Text Content</h3>
                 <textarea class="form-control"  rows="5" placeholder="Write your message here..."></textarea> 
             </div>
-            <div class="tab-pane fade" id="html" role="tabpanel" aria-labelledby="html-tab">
+            <div class="tab-pane fade " id="html" role="tabpanel" aria-labelledby="html-tab">
                 <h3>HTML Content</h3>
-                <textarea id="htmlInput" rows="5"></textarea>
+                <textarea id="htmlInput" class="form-control" rows="5" placeholder="Write your message here..."></textarea>></textarea>
             </div>
-            <div class="tab-pane fade" id="markdown" role="tabpanel" aria-labelledby="markdown-tab">
+            <div class="tab-pane fade " id="markdown" role="tabpanel" aria-labelledby="markdown-tab">
                 <h3>Markdown Content</h3>
-                <textarea id="markdownInput" rows="5"></textarea>
+                <textarea id="markdownInput" class="form-control" rows="5" placeholder="Write your message here..."></textarea>></textarea>
             </div>
         </div>
         <button id="previewBtn">Preview</button>
         <div id="preview"></div>
         
     </div>
-   </div>
+  </div>
 
     
-<!-- 
+   <!-- 
     <div class="form-group">
       <label for="attachments">Attachments:</label>
       <input type="file" class="form-control-file" id="attachments" name="attachments" multiple>
     </div> -->
 
     <button type="button" class="btn btn-primary" >Send Email</button>
-  </form>
+ </form>
 
  
 
-  <script>
-     
-  </script>
+
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="index.js"></script>
 </body>
 </html>
