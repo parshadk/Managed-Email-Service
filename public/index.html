@@ -7,20 +7,31 @@
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 <style>
     body{
-        background-color: #1182EB;
+        background: hsla(205, 77%, 46%, 1);
+
+background: linear-gradient(90deg, hsla(205, 77%, 46%, 1) 69%, hsla(195, 46%, 85%, 1) 100%, hsla(199, 41%, 69%, 1) 100%);
+
+background: -moz-linear-gradient(90deg, hsla(205, 77%, 46%, 1) 69%, hsla(195, 46%, 85%, 1) 100%, hsla(199, 41%, 69%, 1) 100%);
+
+background: -webkit-linear-gradient(90deg, hsla(205, 77%, 46%, 1) 69%, hsla(195, 46%, 85%, 1) 100%, hsla(199, 41%, 69%, 1) 100%);
+
+filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#1B85D2", endColorstr="#C6E1EA", GradientType=1 );
     }
 </style>
 
   </head>
 <body class="container mt-5">
+    <h1 class=" fw-bold text-center ">
+        Managed Email Service
+    </h1>
     <div class="rounded p-3 mb-2 bg- text-white ">
    <form id="emailForm">
     <div class="form-group">
       <input type="checkbox" id="ReplyTo">  
-      <label for="to">Add Reply To:</label><br>
-      <label for="to" >Reply To:</label>
+      <label for="Replyto">Add Reply To:</label><br>
+      <label for="Replyto" >Reply To:</label>
       <input type="email" class="form-control" id="ReplyTo-input" placeholder="Use Commas to separate multiple emails">
-      <label for="Replyto">To:</label>
+      <label for="to">To:</label>
       <input type="email" class="form-control" id="to" name="to" placeholder="Use Commas to separate multiple emails" req>
     </div>
 
@@ -41,39 +52,38 @@
     <div class="form-group">
       <label for="Body">Body:</label>
       </div>
-      <div class="container mt-2">
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <div class="container border rounded ">
+        <div><ul class="nav nav-tabs m-2 bg-light rounded" id="myTab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="text-tab" data-toggle="tab" href="#text" role="tab" aria-controls="text" aria-selected="true">Text</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white" id="html-tab" data-toggle="tab" href="#html" role="tab" aria-controls="html" aria-selected="false">HTML</a>
+                <a class="nav-link active text-black" id="text-tab" data-toggle="tab" href="#text" role="tab" aria-controls="text" aria-selected="true">Text</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white" id="markdown-tab" data-toggle="tab" href="#markdown" role="tab" aria-controls="markdown" aria-selected="false">Markdown</a>
+                <a class="nav-link text-black" id="html-tab" data-toggle="tab" href="#html" role="tab" aria-controls="html" aria-selected="false">HTML</a>
             </li>
-            <li>
-                
+            <li class="nav-item">
+                <a class="nav-link text-black " id="markdown-tab" data-toggle="tab" href="#markdown" role="tab" aria-controls="markdown" aria-selected="false">Markdown</a>
             </li>
+            
         </ul>
-        <div class="tab-content" id="TabContents">
+        <div class="float-right">
+            <button class="previewbtn btn-md rounded m-2">Preview</button>
+        </div>
+    </div>
+        <div class="tab-content m-2" id="TabContents">
             <div class="tab-pane fade show active" id="text" role="tabpanel" aria-labelledby="text-tab">
                 <h3>Text Content</h3>
                 <textarea class="form-control"  rows="5" placeholder="Write your message here..."></textarea> 
             </div>
             <div class="tab-pane fade" id="html" role="tabpanel" aria-labelledby="html-tab">
                 <h3>HTML Content</h3>
-                <textarea id="htmlInput" rows="5"></textarea>
+                <textarea class="form-control"  rows="5" placeholder="Write your message here..."></textarea> 
             </div>
             <div class="tab-pane fade" id="markdown" role="tabpanel" aria-labelledby="markdown-tab">
                 <h3>Markdown Content</h3>
-                <textarea id="markdownInput" rows="5"></textarea>
+                <textarea class="form-control"  rows="5" placeholder="Write your message here..."></textarea> 
             </div>
         </div>
-        <button id="previewBtn">Preview</button>
-        <div id="preview"></div>
-        
-    </div>
+      </div>
    </div>
 
     
@@ -83,13 +93,19 @@
       <input type="file" class="form-control-file" id="attachments" name="attachments" multiple>
     </div> -->
 
-    <button type="button" class="btn btn-primary" >Send Email</button>
+    <button type="button" class="btn ml-2 btn-light" >Send Email</button>
   </form>
 
  
 
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script>
-     
+//       function changeColor() {
+//   var text = document.getElementById("text");
+//   text.style.color = "black"; 
+// }
   </script>
 </div>
 </body>
