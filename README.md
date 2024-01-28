@@ -1,1 +1,0 @@
-# Managed-Email-Service
