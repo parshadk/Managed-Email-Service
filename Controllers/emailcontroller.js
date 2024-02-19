@@ -4,18 +4,20 @@ import { transporter } from "../services/Emailservice.js";
 
 async function sendEmailController(req, res) {
   try {
-    if (!req.body.to || !req.body.subject || !req.body.text) {
+    if (!req.body.from || !req.body.to || !req.body.subject || !req.body.text) {
       return res.status(400).send('Missing required fields in the request body.');
     }
-    const { to, subject, text } = req.body;
+    const { from,to, subject, text, cc, bcc } = req.body;
     let mailOptions;
 
     if (req.file) {
       mailOptions = {
-        from: 't42006532@gmail.com',
+        from,
         to,
         subject,
         text,
+        cc,
+        bcc,
         attachments: [
           {
             filename: req.file.originalname,
@@ -25,10 +27,12 @@ async function sendEmailController(req, res) {
       };
     } else {
       mailOptions = {
-        from: 't42006532@gmail.com',
+        from,
         to,
         subject,
         text,
+        cc,
+        bcc,
       };
     }
     transporter.sendMail(mailOptions, (error, info) => {
@@ -45,3 +49,4 @@ async function sendEmailController(req, res) {
 }
 
 export default { sendEmailController };  
+ 
