@@ -25,7 +25,7 @@ filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#1B85D2", en
         Managed Email Service
     </h1>
     <div class="rounded p-3 mb-2 bg- text-white ">
-   <form id="emailForm">
+   <form id="emailForm" action="/send-email" method="post">
     <div class="form-group">
       <input type="checkbox" id="ReplyTo">  
       <label for="Replyto">Add Reply To:</label><br>
@@ -93,7 +93,7 @@ filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#1B85D2", en
       <input type="file" class="form-control-file" id="attachments" name="attachments" multiple>
     </div> -->
 
-    <button type="button" class="btn ml-2 btn-light" >Send Email</button>
+    <button type="submit" class="btn ml-2 btn-light" >Send Email</button>
   </form>
 
  
@@ -102,10 +102,33 @@ filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#1B85D2", en
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script>
-//       function changeColor() {
-//   var text = document.getElementById("text");
-//   text.style.color = "black"; 
-// }
+    //event listener 
+    this.addEventListener('submit', async function(event) {
+      event.preventDefault(); 
+  
+      
+      const formData = new FormData(this);
+  
+      try {
+        // Send form data 
+        const response = await fetch('/send-email', {
+          method: 'POST',
+          body: formData
+        });
+  
+        // Check if response is OK
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data); // Log response from server
+          alert('Email sent successfully!');
+        } else {
+          throw new Error('Failed to send email');
+        }
+      } catch (error) {
+        console.error(error);
+        alert('Error sending email');
+      }
+    });
   </script>
 </div>
 </body>
