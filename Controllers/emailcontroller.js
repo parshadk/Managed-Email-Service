@@ -3,32 +3,39 @@ import { transporter } from "../services/Emailservice.js";
 
 
 async function sendEmailController(req, res) {
+  console.log(req.body);
+  console.log(req.method);
+  console.log(req.url);
+  console.log(req.files);
   try {
-    if (!req.body.to || !req.body.subject || !req.body.text) {
+    if (!req.body.to || !req.body.subject || !req.body.tbody) {
       return res.status(400).send('Missing required fields in the request body.');
     }
-    const { to, subject, text } = req.body;
+    const { from,to, subject, tbody, cc, bcc } = req.body;
+    const attachments=req.files;
     let mailOptions;
 
-    if (req.file) {
+    if (req.files) {
       mailOptions = {
-        from: 't42006532@gmail.com',
+        from,
         to,
         subject,
-        text,
-        attachments: [
-          {
-            filename: req.file.originalname,
-            content: req.file.buffer,
-          },
-        ],
+        tbody,
+        cc,
+        bcc,
+        attachments: attachments.map(file => ({
+          filename: file.originalname,
+          content: file.buffer
+        }))
       };
     } else {
       mailOptions = {
-        from: 't42006532@gmail.com',
+        from,
         to,
         subject,
-        text,
+        tbody,
+        cc,
+        bcc,
       };
     }
     transporter.sendMail(mailOptions, (error, info) => {
