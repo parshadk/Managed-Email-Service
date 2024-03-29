@@ -17,7 +17,7 @@
         Managed Email Service
     </h1>
     <div class="rounded p-3 mb-2 bg- text-white ">
-   <form id="emailForm" action="/submit"  method="POST">
+   <form id="emailForm" action="/submit"  method="POST" style="background-color: white;">
    
 
     <div class="form-group">
@@ -70,14 +70,9 @@
             </div>
             
         </ul>
-     
-    </div>
-   
-   
-  
+         </div>  
     <div class="tab-content  " id="TabContents">
-  
-     
+      
         <div class="tab-pane fade show active " id="text" role="tabpanel" aria-labelledby="text-tab">
           <div  class="line-numbers mt-3"></div>
             <textarea class="form-control code-editor mt-3"  rows="10" id="tbody" name="tbody" placeholder="Write your email here"></textarea> 
@@ -92,21 +87,15 @@
         </div>
         </div>
       </div>
-    <button type="submit" onclick="submitForm()" id="sendButton"  class="btn ml-2 btn-light mt-2" disabled >Send Email</button>
-  </form>
+    <button type="submit" onclick="submitForm()" id="sendButton"  class="btn ml-2 btn-light mt-2"  >Send Email</button>
+ 
   <div id="loader-overlay">
     <div class="loader">
     </div>
-  </div>
-  
-  <div id="previewWork" class="hide text-dark"></div>
-
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </div> 
   <script src="index.js"> </script>
+
+  </form>
 </div>
-
 </body>
-
 </html>
