@@ -4,7 +4,7 @@ import { transporter } from "../services/Emailservice.js";
 
 async function sendEmailController(req, res) {
   console.log(req.body);
-  console.log(req.method);
+  console.log(req.tbody);
   console.log(req.url);
   console.log(req.files);
   try {
