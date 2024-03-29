@@ -5,7 +5,6 @@ function setActiveTab(tab) {
 }
 
 function displayPreview() {
-   
     var userInput;
     if (activeTab === 'text') {
         userInput = document.getElementById('tbody').value;
@@ -15,153 +14,230 @@ function displayPreview() {
         userInput = document.getElementById('mdB').value;
     }
 
-   
     var previewArea = document.getElementById('previewWork');
     previewArea.classList.toggle('hide');
     previewArea.innerHTML = userInput;
 }
 
 function toggleCcBcc() {
-    var ccBccCheckbox = document.getElementById("CC/Bcc");
-    var ccBccSection = document.getElementById("ccBccSection");
-    if (ccBccCheckbox.checked) {
-      ccBccSection.style.display = "block";
-    } else {
-      ccBccSection.style.display = "none";
-    }
-  }
-  
-  function toggleCcBcc() {
     var ccBccCheckbox = document.getElementById("CC_Bcc");
     var ccBccSection = document.getElementById("ccBccSection");
     if (ccBccCheckbox.checked) {
-      ccBccSection.style.display = "block";
+        ccBccSection.style.display = "block";
     } else {
-      ccBccSection.style.display = "none";
+        ccBccSection.style.display = "none";
     }
-  }
+}
 
-
-  function toggleReplyTo() {
+function toggleReplyTo() {
     var replyToCheckbox = document.getElementById("ReplyTo");
     var replyToSection = document.getElementById("replyToSection");
     if (replyToCheckbox.checked) {
-      replyToSection.style.display = "block";
+        replyToSection.style.display = "block";
     } else {
-      replyToSection.style.display = "none";
+        replyToSection.style.display = "none";
     }
-  }
-
- 
-  document.getElementById("CC_Bcc").addEventListener("change", toggleCcBcc);
-  document.getElementById("ReplyTo").addEventListener("change", toggleReplyTo);
-
-
-function populateLineNumbers() {
-    var textarea = document.getElementById("tbody");
-    var lineNumbers = "";
-    var lines = textarea.value.split("\n").length;
-    for (var i = 1; i <= lines; i++) {
-        lineNumbers += i + "\n";
-    }
-    document.querySelector(".line-numbers").innerText = lineNumbers;
 }
 
-
-populateLineNumbers();
+function adjustTextareaHeight(textareaId) {
+  var textarea = document.getElementById(textareaId);
+  textarea.style.height = ""; 
+  textarea.style.height = textarea.scrollHeight + "px";
+}
 
 document.getElementById("tbody").addEventListener("input", function() {
-    populateLineNumbers();
+  adjustTextareaHeight("tbody");
 });
-
-function populateHtmlLineNumbers() {
-    var textarea = document.getElementById("htmlB");
-    var lineNumbers = "";
-    var lines = textarea.value.split("\n").length;
-    for (var i = 1; i <= lines; i++) {
-        lineNumbers += i + "\n";
-    }
-    document.querySelector(".html-line-numbers").innerText = lineNumbers;
-}
-
-populateHtmlLineNumbers();
-
 
 document.getElementById("htmlB").addEventListener("input", function() {
-    populateHtmlLineNumbers();
+  adjustTextareaHeight("htmlB");
 });
 
-function populateMarkdownLineNumbers() {
-    var textarea = document.getElementById("mdB");
+document.getElementById("mdB").addEventListener("input", function() {
+  adjustTextareaHeight("mdB");
+});
+
+
+document.getElementById("CC_Bcc").addEventListener("change", toggleCcBcc);
+document.getElementById("ReplyTo").addEventListener("change", toggleReplyTo);
+
+function populateLineNumbers(textareaId, lineNumbersClass) {
+    var textarea = document.getElementById(textareaId);
     var lineNumbers = "";
     var lines = textarea.value.split("\n").length;
     for (var i = 1; i <= lines; i++) {
         lineNumbers += i + "\n";
     }
-    document.querySelector(".markdown-line-numbers").innerText = lineNumbers;
+    document.querySelector("." + lineNumbersClass).innerText = lineNumbers;
 }
 
+function populateAllLineNumbers() {
+    populateLineNumbers("tbody", "line-numbers");
+    populateLineNumbers("htmlB", "html-line-numbers");
+    populateLineNumbers("mdB", "markdown-line-numbers");
+}
 
-populateMarkdownLineNumbers();
+populateAllLineNumbers();
 
-
-document.getElementById("mdB").addEventListener("input", function() {
-    populateMarkdownLineNumbers();
-});
-
-
+document.getElementById("tbody").addEventListener("input", populateAllLineNumbers);
+document.getElementById("htmlB").addEventListener("input", populateAllLineNumbers);
+document.getElementById("mdB").addEventListener("input", populateAllLineNumbers);
 
 document.addEventListener("DOMContentLoaded", function() {
-  var toField = document.getElementById('to');
-  var subjectField = document.getElementById('subject');
-  var sendButton = document.getElementById('sendButton');
+    var toField = document.getElementById('to');
+    var subjectField = document.getElementById('subject');
+    var sendButton = document.getElementById('sendButton');
 
-  toField.addEventListener('input', toggleSendButton);
-  subjectField.addEventListener('input', toggleSendButton);
+    toField.addEventListener('input', toggleSendButton);
+    subjectField.addEventListener('input', toggleSendButton);
 
-  function toggleSendButton() {
-    if (toField.value.trim() !== '' && subjectField.value.trim() !== '') {
-      sendButton.disabled = false;
-      sendButton.classList.remove('btn-light');
-      sendButton.classList.add('btn-primary');
-    } else {
-      sendButton.disabled = true;
-      sendButton.classList.remove('btn-primary');
-      sendButton.classList.add('btn-light');
+    function toggleSendButton() {
+        if (toField.value.trim() !== '' && subjectField.value.trim() !== '') {
+            sendButton.disabled = false;
+            sendButton.classList.remove('btn-light');
+            sendButton.classList.add('btn-primary');
+        } else {
+            sendButton.disabled = true;
+            sendButton.classList.remove('btn-primary');
+            sendButton.classList.add('btn-light');
+        }
     }
-  }
 });
 
-function togglePreview() {
-  var preview = document.getElementById("previewWork");
-  preview.style.display = (preview.style.display === "none") ? "block" : "none";
-  var previewButton = document.querySelector(".previewbtn");
-  previewButton.classList.toggle("active");
+function submitForm(event) {
+    event.preventDefault();
+    document.getElementById("loader-overlay").style.display = "flex";
+
+    const formData = new FormData(document.getElementById("emailForm"));
+
+    fetch('/send-email', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('Email sent successfully!');
+                document.getElementById("loader-overlay").style.display = "none";
+                document.getElementById("emailForm").reset();
+
+            } else {
+                throw new Error('Failed to send email: ' + response.statusText);
+            }
+        })
+        .catch(error => {
+            console.error('Error sending email:', error);
+            document.getElementById("loader-overlay").style.display = "none";
+        });
+}
+var activeTab = 'text';
+
+function setActiveTab(tab) {
+    activeTab = tab;
 }
 
+function displayPreview() {
+    var userInput;
+    if (activeTab === 'text') {
+        userInput = document.getElementById('tbody').value;
+    } else if (activeTab === 'html') {
+        userInput = document.getElementById('htmlB').value;
+    } else if (activeTab === 'markdown') {
+        userInput = document.getElementById('mdB').value;
+    }
+
+    var previewArea = document.getElementById('previewWork');
+    previewArea.classList.toggle('hide');
+    previewArea.innerHTML = userInput;
+}
+
+function toggleCcBcc() {
+    var ccBccCheckbox = document.getElementById("CC_Bcc");
+    var ccBccSection = document.getElementById("ccBccSection");
+    if (ccBccCheckbox.checked) {
+        ccBccSection.style.display = "block";
+    } else {
+        ccBccSection.style.display = "none";
+    }
+}
+
+function toggleReplyTo() {
+    var replyToCheckbox = document.getElementById("ReplyTo");
+    var replyToSection = document.getElementById("replyToSection");
+    if (replyToCheckbox.checked) {
+        replyToSection.style.display = "block";
+    } else {
+        replyToSection.style.display = "none";
+    }
+}
+
+document.getElementById("CC_Bcc").addEventListener("change", toggleCcBcc);
+document.getElementById("ReplyTo").addEventListener("change", toggleReplyTo);
+
+function populateLineNumbers(textareaId, lineNumbersClass) {
+    var textarea = document.getElementById(textareaId);
+    var lineNumbers = "";
+    var lines = textarea.value.split("\n").length;
+    for (var i = 1; i <= lines; i++) {
+        lineNumbers += i + "\n";
+    }
+    document.querySelector("." + lineNumbersClass).innerText = lineNumbers;
+}
+
+function populateAllLineNumbers() {
+    populateLineNumbers("tbody", "line-numbers");
+    populateLineNumbers("htmlB", "html-line-numbers");
+    populateLineNumbers("mdB", "markdown-line-numbers");
+}
+
+populateAllLineNumbers();
+
+document.getElementById("tbody").addEventListener("input", populateAllLineNumbers);
+document.getElementById("htmlB").addEventListener("input", populateAllLineNumbers);
+document.getElementById("mdB").addEventListener("input", populateAllLineNumbers);
+
+document.addEventListener("DOMContentLoaded", function() {
+    var toField = document.getElementById('to');
+    var subjectField = document.getElementById('subject');
+    var sendButton = document.getElementById('sendButton');
+
+    toField.addEventListener('input', toggleSendButton);
+    subjectField.addEventListener('input', toggleSendButton);
+
+    function toggleSendButton() {
+        if (toField.value.trim() !== '' && subjectField.value.trim() !== '') {
+            sendButton.disabled = false;
+            sendButton.classList.remove('btn-light');
+            sendButton.classList.add('btn-primary');
+        } else {
+            sendButton.disabled = true;
+            sendButton.classList.remove('btn-primary');
+            sendButton.classList.add('btn-light');
+        }
+    }
+});
+
 function submitForm(event) {
-    event.preventDefault(); 
+    event.preventDefault();
     document.getElementById("loader-overlay").style.display = "flex";
-  
-    const formData = new FormData(document.getElementById("emailForm")); 
-  
+
+    const formData = new FormData(document.getElementById("emailForm"));
+
     fetch('/send-email', {
-      method: 'POST',
-      body: formData 
-    })
-    .then(response => {
-      if (response.ok) {
-        console.log('Email sent successfully!');
-        document.getElementById("loader-overlay").style.display = "none"; 
-        document.getElementById("emailForm").reset(); 
-       
-      } else {
-        throw new Error('Failed to send email: ' + response.statusText);
-      }
-    })
-    .catch(error => {
-      console.error('Error sending email:', error);
-      document.getElementById("loader-overlay").style.display = "none"; 
-    });
-  }
-  
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('Email sent successfully!');
+                document.getElementById("loader-overlay").style.display = "none";
+                document.getElementById("emailForm").reset();
+
+            } else {
+                throw new Error('Failed to send email: ' + response.statusText);
+            }
+        })
+        .catch(error => {
+            console.error('Error sending email:', error);
+            document.getElementById("loader-overlay").style.display = "none";
+        });
+}

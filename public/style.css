@@ -28,7 +28,9 @@ body{
   .code-editor {
     width: calc(100% - 50px);
     float: left;
+    max-height: 100%;
   }
+  
 
 .previewbtn{
     background: none;
